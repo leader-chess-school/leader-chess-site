@@ -1,0 +1,8 @@
+{
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/prices", "destination": "/prices/index.html" },
+    { "source": "/schedule", "destination": "/schedule/index.html" },
+    { "source": "/((?!api/|@|src/|node_modules/|img/|fonts/|assets/|favicon|robots|sitemap).*)", "destination": "/index.html" }
+  ]
+}

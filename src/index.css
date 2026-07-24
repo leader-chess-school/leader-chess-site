@@ -1,0 +1,28 @@
+/* V4 design system (scoped under .v4v) */
+@import './styles/v4.css';
+
+/* Page reset + iOS Safari input-zoom guard (memory: feedback_ios_zoom_fix) */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #001E2B;
+  font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  /* clearance for the fixed bottom CTA on mobile */
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+
+input, textarea, select {
+  font-size: max(16px, 1em);
+}
+
+img { max-width: 100%; height: auto; }
+
+a { color: inherit; }
+
+html { scroll-behavior: smooth; }
