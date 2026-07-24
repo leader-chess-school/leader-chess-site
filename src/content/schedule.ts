@@ -12,7 +12,6 @@ export const SCHEDULE_HEAD = {
 } as const
 
 const kvitko = 'Квитко Н.К.'
-const burcev = 'Бурцев И.Л.'
 
 export const SCHEDULE_OFFLINE: ReadonlyArray<Day> = [
   {
@@ -28,9 +27,9 @@ export const SCHEDULE_OFFLINE: ReadonlyArray<Day> = [
     day: 'Четверг',
     short: 'ЧТ',
     slots: [
-      { time: '16:30', coach: burcev, group: 'старшая' },
-      { time: '17:30', coach: burcev, group: 'средняя' },
-      { time: '18:45', coach: burcev, group: 'младшая' },
+      { time: '16:30', coach: kvitko, group: 'старшая' },
+      { time: '17:30', coach: kvitko, group: 'средняя' },
+      { time: '18:45', coach: kvitko, group: 'младшая' },
     ],
   },
 ]
@@ -57,7 +56,7 @@ export const SCHEDULE_ONLINE: ReadonlyArray<Day> = [
 export const SCHEDULE_COACHES = {
   eyebrow: 'тренеры',
   rows: [
-    { name: 'Квитко Н.К.', days: 'пн очно · вт, чт онлайн' },
-    { name: 'Бурцев И.Л.', days: 'чт очно' },
+    { name: 'Квитко Н.К.', days: 'пн, чт очно · вт, чт онлайн' },
+    { name: 'Бурцев И.Л.', days: 'в сезоне — чт очно' },
   ],
 } as const

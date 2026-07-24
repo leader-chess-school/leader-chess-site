@@ -1,128 +1,86 @@
-# chess-leader/website
+# Сайт школы «Лидер»
 
-New site for Chess Leader school. Replaces the legacy WordPress
-build at `../chess-leader-website/` (kept as a read-only reference).
+Публичный сайт школы — [chess-spb.com](https://chess-spb.com). Ты — агент сайта:
+правишь то, что на нём написано, и выкладываешь. Отдельный репозиторий, живёт
+рядом с базой школы под общим `fleet/`; дверь родителя — `../CLAUDE.md`.
 
-Live: [chess-spb.com](https://chess-spb.com) — DNS cut over to this
-Vercel project 2026-05-31 (propagating ≤24h); also on
-chess-leader.vercel.app (secondary). Canonical/OG/sitemap → chess-spb.com.
+Соседняя папка `../leader-chess/` — **база школы** (ученики, группы, деньги,
+расписание). Она ближе к правде: если на сайте расходится с базой — прав тот,
+кто в базе, но молча не переписывай, скажи Никите.
 
-## Stack
+## С кем работаешь
+- **Никита** — директор школы. Обращайся «Никита», на «ты».
+- **Скандар** — владелец. Его правки приходят сверху.
 
-- Vite 7 + React 19 + TypeScript
-- react-router-dom v7 — `BrowserRouter` in `main.tsx`, `StaticRouter`
-  in `entry-server.tsx`. `vite.config.ts` dedupes React.
-- V4 design system in `src/styles/v4.css` (scoped under `.v4v`) —
-  hand-written CSS, no Tailwind/PostCSS.
-- `libphonenumber-js` — RU phone validation + as-you-type mask
-  (`src/lib/phone.ts`).
-- Build-time SSG: client build + SSR build + `scripts/prerender.mjs`
-  emits per-route `dist/<route>/index.html` with content, meta and
-  JSON-LD. Mirrors `maksi/scripts/prerender.mjs`.
+## Что правится и где
 
-## Pages
+Весь текст сайта лежит в `src/content/`. В компонентах (`src/components/`,
+`src/pages/`) текста нет — правишь **только** контент-файлы:
 
-| Path | Component | Notes |
-|------|-----------|-------|
-| `/` | `Home` | hero + storyboard + stats + benefits + coaches + reviews + where |
-| `/prices` | `Prices` | 3 tiers + compare + promo + included + FAQ |
-| `/schedule` | `Schedule` | mode tabs + 7-day week + coaches note |
+| Файл | Что в нём |
+|---|---|
+| `schedule.ts` | расписание: очные и онлайн-дни, время, группы, тренеры |
+| `prices.ts` | тарифы, что входит в абонемент, FAQ на странице «Цены» |
+| `home.ts` | главная: заголовок, цифры, преимущества, тренеры, отзывы |
+| `nav.ts` | меню и ссылки шапки |
 
-`MenuOverlay` lists only these three — Турниры / Контакты / Блог
-intentionally absent (per user instruction). `*` falls back to Home.
+Три страницы: `/` (главная), `/prices`, `/schedule`. Страниц `/about`,
+`/contacts`, `/tournaments` нет намеренно — контакты стоят в подвале.
 
-## Content
+## Как посмотреть и как выложить
 
-`src/content/` is the single source of truth — `home.ts`, `prices.ts`,
-`schedule.ts`, `nav.ts`. Edit values there, not in components.
-Content for hero / stats / coaches / reviews lifted verbatim from
-legacy WP blocks (`../chess-leader-website/blocks/*`).
-
-## SEO
-
-- Per-page `<title>`, `<meta name="description">`, `<link rel="canonical">`,
-  full `og:*` + `twitter:*` — replaced by `scripts/prerender.mjs`
-  from `ROUTES` definitions.
-- JSON-LD: `EducationalOrganization` + `WebSite` on `/`; `Service`
-  (3 offers) + `FAQPage` on `/prices`; `Course` (2 instances) on
-  `/schedule`.
-- `public/robots.txt` + auto-generated `dist/sitemap.xml`.
-- Yandex.Metrika id `88489627` inlined in `index.html` with
-  `ssr:true, webvisor:true, clickmap:true`. `<noscript>` pixel.
-
-## Responsive
-
-Single `src/styles/v4.css`:
-- Default: mobile.
-- `@media (min-width: 768px)` — tablet: 3-col grids, 2-col schedule
-  + where, sticky CTA hidden, full phone in nav.
-- `@media (min-width: 1024px)` — desktop: max-width 1100 container,
-  inline nav links + header CTA, board-frame hero, 4-col stats /
-  benefits, 3-col coaches, 3-col schedule, 4-col footer.
-
-Logo is the real chess-spb.com brand mark — inline SVG in
-`src/components/icons/LogoMark.tsx` (paths use `currentColor`).
-Dark teal on header / footer-white via CSS `color`.
-
-## Run
-
-```bash
-npm install
-npm run dev       # vite at http://localhost:5175
-npm run build     # tsc + client + SSR + prerender → dist/
+```sh
+npm install       # один раз на новой машине
+npm run dev       # локальный просмотр, адрес печатает сама команда
+npm run build     # полная сборка — так же, как её делает Vercel
 ```
 
-Or `preview_start chess-leader` (configured in `../../.claude/launch.json`).
+Выкладка — через Vercel:
 
-## Deploy
+- **ветка → preview.** Запушил ветку — Vercel собирает её сам и даёт ссылку на
+  предпросмотр. Её можно открыть с телефона и показать кому угодно, на живой
+  сайт это не влияет.
+- **`main` = живой сайт.** Всё, что попало в `main`, через минуту-две на
+  chess-spb.com. Спорное — сначала веткой, потом в `main`.
 
-```bash
-vercel --prod --yes   # from this directory (CLI logged in, no token needed)
-```
+Если сборка падает — читай ошибку, не обходи её правкой конфигов. Чаще всего это
+опечатка в контент-файле: лишняя запятая, незакрытая кавычка.
 
-`vercel.json` rewrites `/prices` → `/prices/index.html`,
-`/schedule` → `/schedule/index.html`, fallback for non-asset paths.
+## Чего не трогать
 
-## Lead capture
+- **`api/submit.ts`** — приём заявок с формы. Заявка уходит в телеграм-бота
+  `@leader_chessbot` админам. Ключи и список получателей лежат в окружении
+  Vercel, не в репозитории. Ломается тихо: сайт соберётся, а заявки перестанут
+  приходить. Локально форма не отправляет — это нормально, не чини.
+- **Домен и DNS** — настроены, из репозитория не меняются.
+- **`src/styles/v4.css`** — дизайн-система целиком. Отдельные значения менять
+  можно, перекраивать вёрстку — только по прямой просьбе.
 
-`src/components/LeadForm.tsx` (rendered by `Where.tsx`) posts
-`POST /api/submit` (Vercel Function) → Telegram, DMing each lead to **all
-admins** via the chess-crm prod bot @leader_chessbot. Env:
-`TELEGRAM_BOT_TOKEN` (= @leader_chessbot) + `TELEGRAM_ADMIN_CHAT_IDS`.
-Local `.env.local` → `../../.secrets/chess-leader-site.env`; prod env in
-the Vercel `chess-leader` project. Map: `../../maksi-vault/channels.md`
-+ `secrets-map.md`.
+## Как устроено (для агента, не для Никиты)
 
-Phone: `src/lib/phone.ts` (`libphonenumber-js`) — prefill `+7`, normalize
-`8…`/10-digit to `+7`, `AsYouType` mask, `isValidPhoneNumber` → green
-"valid" + inline error; the server normalizes too. Mobile: the form card
-has `id="lead-form"`; CTAs scroll to it centred (`scrollToForm` in
-`App.tsx`, corrective re-scroll for font/image reflow); the sticky bar
-(`StickyCTA.tsx`) hides while the form is on screen (IntersectionObserver).
+- Vite 7 + React 19 + TypeScript, react-router-dom v7 (`BrowserRouter` на
+  клиенте, `StaticRouter` в `entry-server.tsx`).
+- Сборка = `tsc --noEmit` + клиентский билд + SSR-билд + `scripts/prerender.mjs`.
+  Пререндер рендерит каждый маршрут в `dist/<route>/index.html` вместе с мета-тегами
+  и JSON-LD и генерирует `dist/sitemap.xml`. Поэтому текст виден поисковику без JS.
+- SEO: per-page `title`/`description`/canonical/`og:*` пишет пререндер из `ROUTES`;
+  JSON-LD — `EducationalOrganization` + `WebSite` на главной, `Service` + `FAQPage`
+  на «Ценах», `Course` на «Расписании».
+- Аналитика: Яндекс.Метрика `88489627` в `index.html`; обёртки в `src/lib/`,
+  UTM ловятся при первом заходе и уезжают вместе с заявкой. Цели `lead_submitted`
+  и `phone_click` шлются, но в дашборде Метрики ещё не заведены.
+- Телефон в форме: `src/lib/phone.ts` (`libphonenumber-js`) — маска и валидация RU.
+- Vercel: проект `chess-leader`, команда `skandar11s-projects`. Прод-ветка `main`.
 
-## Analytics / paid-ads readiness
+## Что не сделано
 
-Mirrors maksi. Yandex.Metrika `88489627` (init in `index.html`).
-- `src/lib/analytics.ts` — `reachGoal` / `hit` wrappers.
-- `src/lib/utm.ts` — captures `utm_*` on first load (sessionStorage),
-  forwarded in the `/api/submit` body → Telegram.
-- `src/components/RouteTracker.tsx` — SPA pageview `hit` per route.
-- Goals: `lead_submitted` on form success, `phone_click` on tel: links —
-  **create matching goals in the Metrika dashboard** for them to register.
+- `/about` и `/contacts` — страниц нет.
+- Нормальной фотосъёмки не было: герой и сториборд стоят на том, что нашлось.
+- Заявки с сайта не попадают в `../leader-chess/school/leads/` — только в телеграм.
 
-The "Где мы" block (`Where.tsx`) is a keyless Yandex `map-widget` iframe
-centred on the school — no API key, survives prerender.
+## Граница
 
-## What doesn't work yet
-
-- `/about`, `/contacts` not built (Footer surfaces phone / email /
-  address inline instead).
-- DNS for `chess-spb.com` cut over to this Vercel project 2026-05-31
-  (propagating ≤24h); vercel.app stays as a secondary domain.
-
-## Boundary with vault
-
-`../../maksi-vault/` is the shared semantic layer. Entry:
-`../../maksi-vault/systems/chess-leader-site.md`. Don't write to
-vault from this repo without explicit instruction —
-`../../maksi-vault/principles.md`.
+Свой волт у сайта не заведён — карточка системы лежит в базе школы,
+`../leader-chess/vault/systems/site.md`, а инженерный канон — в
+`../../maksi-vault/systems/chess-leader-site.md`. Сам в чужие волты не пиши
+без прямой просьбы.
