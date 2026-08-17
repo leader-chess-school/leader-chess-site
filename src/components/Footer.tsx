@@ -1,12 +1,26 @@
 import LogoMark from './icons/LogoMark'
 import { CONTACT } from '@/content/home'
-import type { PageId } from '@/content/nav'
+import { pathFor, type PageId } from '@/content/nav'
 
 type Props = {
   onNavigate: (id: PageId) => void
 }
 
 export default function Footer({ onNavigate }: Props) {
+  // Real <a href> (SPA-intercepted) so crawlers see the internal links.
+  const nav = (id: PageId, label: string) => (
+    <a
+      className="v4v-footer-link"
+      href={pathFor(id)}
+      onClick={(e) => {
+        e.preventDefault()
+        onNavigate(id)
+      }}
+    >
+      {label}
+    </a>
+  )
+
   return (
     <footer className="v4v-footer">
       <div className="v4v-footer-inner">
@@ -30,18 +44,20 @@ export default function Footer({ onNavigate }: Props) {
             <h5>Шахматная школа «Лидер»</h5>
             <span className="v4v-footer-link" aria-disabled="true">СПб, м. {CONTACT.metro}</span>
             <span className="v4v-footer-link" aria-disabled="true">{CONTACT.address}</span>
+            <span className="v4v-footer-link" aria-disabled="true">{CONTACT.district}</span>
+          </div>
+          <div>
+            <h5>Занятия</h5>
+            {nav('age5', 'Шахматы с 5 лет')}
+            {nav('individual', 'Индивидуальные')}
+            {nav('schedule', 'Расписание')}
+            {nav('prices', 'Стоимость')}
           </div>
           <div>
             <h5>Школа</h5>
-            <button type="button" className="v4v-footer-link" onClick={() => onNavigate('home')}>
-              О школе
-            </button>
-            <button type="button" className="v4v-footer-link" onClick={() => onNavigate('schedule')}>
-              Расписание
-            </button>
-            <button type="button" className="v4v-footer-link" onClick={() => onNavigate('prices')}>
-              Стоимость
-            </button>
+            {nav('home', 'О школе')}
+            {nav('coaches', 'Тренеры')}
+            {nav('reviews', 'Отзывы')}
           </div>
           <div>
             <h5>Контакты</h5>

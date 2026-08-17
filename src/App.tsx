@@ -3,6 +3,10 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Home from '@/pages/Home'
 import Prices from '@/pages/Prices'
 import Schedule from '@/pages/Schedule'
+import Age5 from '@/pages/Age5'
+import Individual from '@/pages/Individual'
+import CoachesPage from '@/pages/CoachesPage'
+import ReviewsPage from '@/pages/ReviewsPage'
 import NotFound from '@/pages/NotFound'
 import PromoStrip from '@/components/PromoStrip'
 import TopNav from '@/components/TopNav'
@@ -69,6 +73,10 @@ export default function App() {
         <Route path="/" element={<Home onCTA={triggerCTA} />} />
         <Route path="/prices" element={<Prices onCTA={triggerCTA} />} />
         <Route path="/schedule" element={<Schedule onCTA={triggerCTA} />} />
+        <Route path="/age-5" element={<Age5 onCTA={triggerCTA} />} />
+        <Route path="/individual" element={<Individual onCTA={triggerCTA} />} />
+        <Route path="/coaches" element={<CoachesPage onCTA={triggerCTA} />} />
+        <Route path="/reviews" element={<ReviewsPage onCTA={triggerCTA} />} />
         <Route path="*" element={<NotFound onHome={() => navigate('home')} />} />
       </Routes>
       <Footer onNavigate={navigate} />

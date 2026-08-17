@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { CONTACT, REVIEWS } from '@/content/home'
+import { REVIEWS } from '@/content/home'
 
 export default function Reviews() {
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -53,9 +53,7 @@ export default function Reviews() {
       <div className="reviews-hint">
         <a
           className="v4v-caption"
-          href={CONTACT.vkReviewsUrl}
-          target="_blank"
-          rel="noopener"
+          href="/reviews"
           style={{
             color: 'var(--v4v-green-dark)',
             fontWeight: 600,

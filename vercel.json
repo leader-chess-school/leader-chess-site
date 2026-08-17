@@ -23,6 +23,10 @@
   ],
   "rewrites": [
     { "source": "/prices", "destination": "/prices/index.html" },
-    { "source": "/schedule", "destination": "/schedule/index.html" }
+    { "source": "/schedule", "destination": "/schedule/index.html" },
+    { "source": "/age-5", "destination": "/age-5/index.html" },
+    { "source": "/individual", "destination": "/individual/index.html" },
+    { "source": "/coaches", "destination": "/coaches/index.html" },
+    { "source": "/reviews", "destination": "/reviews/index.html" }
   ]
 }
