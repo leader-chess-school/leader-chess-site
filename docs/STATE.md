@@ -154,7 +154,7 @@ no token needed). Project: `prj_mE3f8vYjpzIo2oxURV1KsUyJuxlx`
 ## How to run
 
 ```bash
-cd /Users/skandar/maksi-studio/chess-leader/website
+# из корня репозитория (leader-chess-site/)
 npm install
 npm run dev       # → http://localhost:5175
 npm run build     # tsc + client + SSR + prerender → dist/
