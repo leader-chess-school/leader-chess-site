@@ -35,16 +35,19 @@ export default function Reviews() {
       <div className="reviews-scroller" ref={scrollRef}>
         {REVIEWS.items.map((r) => (
           <article className="v4v-card review-card" key={r.name}>
-            <img
-              className="v4v-photo"
-              src={r.photo}
-              alt={r.photoAlt}
-              style={{ height: 200, borderRadius: 'var(--v4v-r-md)' }}
-            />
+            {r.photo && (
+              <img
+                className="v4v-photo"
+                src={r.photo}
+                alt={r.photoAlt}
+                style={{ height: 200, borderRadius: 'var(--v4v-r-md)' }}
+              />
+            )}
             <div className="review-body">
               <p className="v4v-body review-quote">«{r.text}»</p>
               <div className="v4v-caption review-who">
                 <b>{r.name}</b> · <span className="review-kid">{r.childAge}</span>
+                {r.source && <span> · {r.source}</span>}
               </div>
             </div>
           </article>

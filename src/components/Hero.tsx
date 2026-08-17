@@ -59,9 +59,7 @@ export default function Hero({ onCTA }: Props) {
                 {HERO.cta}
               </button>
             </div>
-            <p className="hero-cta-note">
-              30 минут с тренером · перезвоним за 15 минут · без обязательств
-            </p>
+            <p className="hero-cta-note">{HERO.ctaNote}</p>
             <div className="hero-trust">
               {trust.map((s, i) => (
                 <Fragment key={s.caption}>
