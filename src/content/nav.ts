@@ -21,3 +21,10 @@ export function pathFor(id: PageId): string {
 export function crumbFor(id: PageId): string | null {
   return PAGES.find((p) => p.id === id)?.crumb ?? null
 }
+
+export const NOT_FOUND = {
+  eyebrow: 'ошибка 404',
+  title: 'Страница не найдена',
+  body: 'Такой страницы на сайте нет — возможно, ссылка устарела.',
+  cta: 'На главную',
+} as const

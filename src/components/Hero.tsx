@@ -23,7 +23,8 @@ export default function Hero({ onCTA }: Props) {
         />
         <div className="hero-card">
           <span className="v4v-eyebrow">{HERO.eyebrow}</span>
-          <h1 className="v4v-h1" style={{ marginTop: 6 }}>{HERO.h1}</h1>
+          {/* Not an <h1>: the desktop hero carries the page's single <h1>. */}
+          <p className="v4v-h1" style={{ marginTop: 6 }}>{HERO.h1}</p>
           <p className="v4v-body-sm" style={{ marginTop: 6 }}>{HERO.sub}</p>
           <button
             type="button"

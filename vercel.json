@@ -1,8 +1,28 @@
 {
   "framework": "vite",
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.chess-spb.com" }],
+      "destination": "https://chess-spb.com/:path*",
+      "permanent": true
+    },
+    { "source": "/shedule", "destination": "/schedule", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "chess-leader.vercel.app" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    }
+  ],
   "rewrites": [
     { "source": "/prices", "destination": "/prices/index.html" },
-    { "source": "/schedule", "destination": "/schedule/index.html" },
-    { "source": "/((?!api/|@|src/|node_modules/|img/|fonts/|assets/|favicon|robots|sitemap).*)", "destination": "/index.html" }
+    { "source": "/schedule", "destination": "/schedule/index.html" }
   ]
 }

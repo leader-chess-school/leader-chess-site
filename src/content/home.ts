@@ -29,7 +29,7 @@ export const NAV: ReadonlyArray<{ label: string; href: string }> = [
 
 export const HERO = {
   eyebrow: `5–16 лет · м. ${CONTACT.metro}`,
-  h1: 'Шахматная школа в Санкт-Петербурге',
+  h1: 'Шахматная школа для детей в Санкт-Петербурге',
   sub: 'Для детей от 5 до 16 лет: разовьём смекалку, творческое мышление и волю к победе!',
   cta: 'Бесплатный пробный урок',
   photo: '/img/base/lessons-image-1.jpg',
