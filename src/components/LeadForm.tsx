@@ -3,6 +3,7 @@ import { CONTACT, WHERE } from '@/content/home'
 import { formatRuPhone, isValidRuPhone } from '@/lib/phone'
 import { reachGoal } from '@/lib/analytics'
 import { getUtm } from '@/lib/utm'
+import { getDeviceMark } from '@/lib/device'
 
 const SOURCE = 'сайт Chess Leader'
 
@@ -14,6 +15,9 @@ export default function LeadForm() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
+  // Приманка для роботов: поле спрятано от глаз, человек его не заполнит.
+  // Пришло непустым — заявка тихо не доедет до базы.
+  const [company, setCompany] = useState('')
 
   const nameValid = name.trim().length > 0
   const phoneValid = isValidRuPhone(phone)
@@ -31,7 +35,14 @@ export default function LeadForm() {
       const r = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, source: SOURCE, utm: getUtm() }),
+        body: JSON.stringify({
+          name,
+          phone,
+          source: SOURCE,
+          utm: getUtm(),
+          company,
+          ...getDeviceMark(),
+        }),
       })
       if (!r.ok) throw new Error('submit failed')
       reachGoal('lead_submitted', { source: SOURCE })
@@ -111,6 +122,29 @@ export default function LeadForm() {
               </p>
             )}
           </div>
+
+          {/*
+            Приманка для роботов. Спрятана стилями, а не type="hidden": скрытые
+            поля роботы пропускают, а видимое в разметке — заполняют охотно.
+            tabIndex и autoComplete держат её подальше от людей: ни табом не
+            попасть, ни автозаполнением не задеть.
+          */}
+          <input
+            type="text"
+            name="company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: '-9999px',
+              width: 1,
+              height: 1,
+              opacity: 0,
+            }}
+          />
 
           <button className="v4v-btn primary lg block" type="submit" disabled={submitting}>
             {submitting ? 'Отправляем…' : WHERE.formCard.cta}
